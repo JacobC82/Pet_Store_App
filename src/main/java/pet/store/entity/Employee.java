@@ -12,15 +12,14 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
-@Data
-
-public class Employee {
+@Data 
+	public class Employee {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long employeeId;
 	
-	private Long petStoreId;
+	//private Long petStoreId;
 	
 	private String employeeFirstName;
 	

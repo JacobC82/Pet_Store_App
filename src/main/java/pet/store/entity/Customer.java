@@ -30,5 +30,5 @@ public class Customer {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@ManyToMany(mappedBy = "customers", cascade = CascadeType.PERSIST)
-	private Set<PetStore> petStore = new HashSet<PetStore>();//red squiggly lines @HashSet<PetStore>
+	private Set<PetStore> petStore = new HashSet<>();//red squiggly lines @HashSet<PetStore>
 }
