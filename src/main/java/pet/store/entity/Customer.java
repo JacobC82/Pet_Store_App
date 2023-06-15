@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import pet.store.controller.model.PetStoreCustomer;
 
 @Entity
 @Data
