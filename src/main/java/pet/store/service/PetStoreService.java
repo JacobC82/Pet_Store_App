@@ -4,11 +4,16 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 //  is line above correct?
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import pet.store.controller.model.PetStoreData;
+import pet.store.controller.model.PetStoreEmployee;
+import pet.store.dao.EmployeeDao;
 import pet.store.dao.PetStoreDao;
+import pet.store.entity.Employee;
 import pet.store.entity.PetStore;
 
 @Service
@@ -16,6 +21,8 @@ public class PetStoreService {
 	
 	@Autowired
 	private PetStoreDao petStoreDao;
+	@Autowired
+	private EmployeeDao employeeDao;
 	
 
 	public PetStoreData savePetStoreData(PetStoreData petStoreData) {
@@ -60,4 +67,55 @@ public class PetStoreService {
 				-> new NoSuchElementException("Pet store with ID = " 
 						+ petStoreId + " is not a valid ID number."));
 	}
+	
+	@Transactional(readOnly = false)
+	public PetStoreEmployee saveEmployee(Long petStoreId, PetStoreEmployee petStoreEmployee) {
+		Long employeeId = petStoreEmployee.getEmployeeId();
+		findPetStoreById(petStoreId);
+		Employee employee = findOrCreateEmployee(petStoreId, employeeId);
+		copyEmployeeFields(employee, petStoreEmployee);
+		
+		return new PetStoreEmployee(employeeDao.save(employee));
+		
+	}
+
+	
+	private Employee findEmployeeById(Long petStoreId, Long employeeId) {
+		PetStore petStore = findPetStoreById(petStoreId); 
+		Employee employee =  employeeDao.findById(employeeId).orElseThrow(() -> new NoSuchElementException("Pet store with ID= "
+				+ petStoreId + " does not have an employee with employee ID= " + employeeId + "."));
+		
+		if(petStore.getPetStoreId()!= petStoreId) {
+			throw new IllegalArgumentException("No such employee ID for a Pet Store ID= " + petStoreId);
+		}
+		return employee;
+	}
+	
+	private Employee findOrCreateEmployee(Long employeeId, Long petStoreId) {
+		Employee employee;
+
+		if(Objects.isNull(employeeId)) {
+			Optional<Employee> opEmployee =
+					employeeDao.findById(employeeId);
+		if(opEmployee.isPresent()) {
+			throw new DuplicateKeyException("Employee with ID = " + employeeId + " already exists");
+		}
+			
+			employee = new Employee();
+		}else {
+			
+			employee = findEmployeeById(petStoreId, employeeId);
+		}
+		return employee;
+	}
+	
+	private void copyEmployeeFields(Employee employee, PetStoreEmployee petStoreEmployee) {
+		employee.setEmployeeId(petStoreEmployee.getEmployeeId());
+		employee.setEmployeeFirstName(petStoreEmployee.getEmployeeFirstName());
+		employee.setEmployeeLastName(petStoreEmployee.getEmployeeLastName());
+		employee.setEmployeePhone(petStoreEmployee.getEmployeePhone());
+		employee.setEmployeeJobTitle(petStoreEmployee.getEmployeeJobTitle());
+	}
+
+	
 }

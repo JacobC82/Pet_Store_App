@@ -1,4 +1,4 @@
-package pet.store.controller.model;
+package pet.store.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
+import pet.store.controller.model.PetStoreData;
+import pet.store.controller.model.PetStoreEmployee;
 import pet.store.service.PetStoreService;
 
 @RestController
@@ -41,5 +43,14 @@ public class PetStoreController {
 		
 		return petStoreService.savePetStoreData(petStoreData);
 		
+	}
+	@PostMapping("pet_store/{petStoreId}/employee")
+	@ResponseStatus(code = HttpStatus.CREATED) //PetStoreEmployee employeeId changed to what it is now (petStoreEmoloyee)
+	public PetStoreEmployee addEmployee(@PathVariable Long petStoreId, @RequestBody PetStoreEmployee petStoreEmployee) {
+		
+		;
+		log.info("Adding employee {} to pet store =" + petStoreId, petStoreEmployee );
+		
+		return petStoreService.saveEmployee(petStoreId, petStoreEmployee);
 	}
 }

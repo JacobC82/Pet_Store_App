@@ -15,11 +15,13 @@ import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import pet.store.controller.model.PetStoreEmployee;
 
 @Entity
 @Data
 
 public class PetStore {
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
