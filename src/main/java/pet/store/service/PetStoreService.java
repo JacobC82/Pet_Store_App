@@ -74,7 +74,10 @@ public class PetStoreService {
 		findPetStoreById(petStoreId);
 		Employee employee = findOrCreateEmployee(petStoreId, employeeId);
 		copyEmployeeFields(employee, petStoreEmployee);
-		
+		PetStore petStore = findPetStoreById(petStoreId);
+		//petStore.getEmployees().add(employee);
+		employee.setPetStore(petStore);
+		petStore.getEmployees().add(employee);
 		return new PetStoreEmployee(employeeDao.save(employee));
 		
 	}
@@ -92,7 +95,8 @@ public class PetStoreService {
 	}
 	
 	private Employee findOrCreateEmployee(Long employeeId, Long petStoreId) {
-		Employee employee;
+	                      //Delete this if this doesnt work	
+		Employee employee = findEmployeeById(employeeId,petStoreId);
 
 		if(Objects.isNull(employeeId)) {
 			Optional<Employee> opEmployee =

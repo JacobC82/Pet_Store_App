@@ -38,7 +38,7 @@ public class PetStore {
 	private Set<Customer> customers = new HashSet<Customer>();
 
 	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
+	@ToString.Exclude   //changed from petStore to pet_store on line 42- hated that
 	@OneToMany(mappedBy = "petStore", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Employee> employees = new HashSet<Employee>();
 
