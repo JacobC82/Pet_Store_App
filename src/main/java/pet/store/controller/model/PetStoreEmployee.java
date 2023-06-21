@@ -8,6 +8,7 @@ import pet.store.entity.PetStore;
 
 @Data
 @NoArgsConstructor
+
 public class PetStoreEmployee {
 	private Long employeeId;
 	private String employeeFirstName;

@@ -17,7 +17,7 @@ public class PetStoreCustomer {
 	private String customerEmail;
 	
 	//Constructor taking customer object
-	PetStoreCustomer(Customer customer){
+	public PetStoreCustomer(Customer customer){
 		customerId = customer.getCustomerId();
 		customerFirstName = customer.getCustomerFirstName();
 		customerLastName = customer.getCustomerLastName();

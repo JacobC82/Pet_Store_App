@@ -70,15 +70,22 @@ public class PetStoreService {
 	
 	@Transactional(readOnly = false)
 	public PetStoreEmployee saveEmployee(Long petStoreId, PetStoreEmployee petStoreEmployee) {
-		Long employeeId = petStoreEmployee.getEmployeeId();
-		findPetStoreById(petStoreId);
-		Employee employee = findOrCreateEmployee(petStoreId, employeeId);
-		copyEmployeeFields(employee, petStoreEmployee);
+		
 		PetStore petStore = findPetStoreById(petStoreId);
-		//petStore.getEmployees().add(employee);
+		
+		Long employeeId = petStoreEmployee.getEmployeeId();
+		
+		Employee employee = findOrCreateEmployee(petStoreId, employeeId);
+		
+		copyEmployeeFields(employee, petStoreEmployee);
+		
 		employee.setPetStore(petStore);
+
 		petStore.getEmployees().add(employee);
-		return new PetStoreEmployee(employeeDao.save(employee));
+		
+		Employee dbEmployee = employeeDao.save(employee);
+		
+		return new PetStoreEmployee(dbEmployee                                                                                                         );
 		
 	}
 
@@ -96,7 +103,8 @@ public class PetStoreService {
 	
 	private Employee findOrCreateEmployee(Long employeeId, Long petStoreId) {
 	                      //Delete this if this doesnt work	
-		Employee employee = findEmployeeById(employeeId,petStoreId);
+		
+		Employee employee;
 
 		if(Objects.isNull(employeeId)) {
 			Optional<Employee> opEmployee =

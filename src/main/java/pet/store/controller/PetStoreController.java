@@ -23,7 +23,7 @@ public class PetStoreController {
 	@Autowired
 	private PetStoreService petStoreService;	
 	
-	@PostMapping
+	@PostMapping("pet_store")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public PetStoreData insertPetStoreData(@RequestBody PetStoreData petStoreData) {
 		
@@ -48,8 +48,8 @@ public class PetStoreController {
 	@ResponseStatus(code = HttpStatus.CREATED) //PetStoreEmployee employeeId changed to what it is now (petStoreEmoloyee)
 	public PetStoreEmployee addEmployee(@PathVariable Long petStoreId, @RequestBody PetStoreEmployee petStoreEmployee) {
 		
-		;
-		log.info("Adding employee {} to pet store =" + petStoreId, petStoreEmployee );
+		
+		log.info("Adding employee {} to pet store ={}" + petStoreId, petStoreEmployee );
 		
 		return petStoreService.saveEmployee(petStoreId, petStoreEmployee);
 	}
